@@ -1,0 +1,39 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>从小到大排序</title>
+</head>
+<body>
+    <script>
+        /*
+         * 1.条件判断：array || [] 这部分利用了 JavaScript 中的逻辑或（||）运算符。
+         * 当左侧表达式（array）的值为假值（如 null、undefined、false、0、NaN、'' 等）时，
+         * 表达式会返回右侧的值（[]）。若左侧表达式的值为真值（非假值），则直接返回该值。
+         * 如果原始的 array 变量已经有一个非假值（如一个已有元素的数组），那么这条语句不会改变 array 的值。
+         * 2.变量赋值：array = array || []; 
+         * 如果原始的 array 变量是 null、undefined 或其他假值，那么这条语句会将 array 初始化为一个空数组 []。
+         * 这段代码的作用是确保在执行后续代码时，array 变量始终是一个数组（即使传入的值为空或未定义）。
+         * 这样可以避免因 array 未初始化或值无效而导致的运行时错误，提高代码的健壮性。
+         * 在实际编程中，这种写法常用于函数参数默认值设定、变量初始化等场景。
+         */
+        //给出一组数据，按照从小到大进行排序，
+        function sort(array) {
+            array = array || [];    //空值检查和初始化操作，确保array变量存在有效值
+            for (let i = 1; i < array.length - 1; i++) {
+                for (let j = i; j >0; j--) {
+                    //判断  比较大小，决定是否交换位置
+                    if (array[j-1] > array[j]) {
+                        let tmp = array[j-1];
+                        array[j-1] = array[j];
+                        array[j] = tmp;
+                    }
+                }
+            }
+            return array;
+        }
+        let array = [88,98,33,66,78,99];
+        console.log(sort(array));
+    </script>
+</body>
+</html>

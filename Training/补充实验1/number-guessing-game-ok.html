@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>数字猜谜游戏</title>
+
+    <style>
+      html {
+        font-family: sans-serif;
+      }
+
+      body {
+        width: 50%;
+        max-width: 800px;
+        min-width: 480px;
+        margin: 0 auto;
+      }
+
+      .form input[type="number"] {
+        width: 200px;
+      }
+
+      .lastResult {
+        color: white;
+        padding: 3px;
+      }
+
+      .guesses {
+        border: 1px dotted pink;
+        height: 30px;
+        width:500px;
+        line-height: 30px;
+        border-radius: 5px;
+
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>数字猜谜游戏</h1>
+
+    <p>我们选择1和100之间的一个随机数,你将有10次机会。</p>
+    <p>我们会告诉你猜得大还是小</p>
+
+    <div class="form">
+      <label for="guessField">输入一个你猜测的数字: </label>
+      <input type="number" min="1"  max="100" required id="guessField" class="guessField"/>
+      <input type="submit" value="提交猜测" class="guessSubmit" />
+    </div>
+
+    <div class="resultParas">
+      <p class="guesses"></p>
+      <p class="lastResult"></p>
+      <p class="lowOrHi"></p>
+    </div>
+
+    <script>
+      //游戏初始化
+      let randomNumber = Math.floor(Math.random() * 100) + 1; //获取 1~100 随机整数
+      const guesses = document.querySelector(".guesses"); //获取类名为 guesses 的元素
+      const lastResult = document.querySelector(".lastResult"); //获取类名为 lastResult 的元素
+      const lowOrHi = document.querySelector(".lowOrHi"); //获取类名为 lowOrHi 的元素
+      const guessSubmit = document.querySelector(".guessSubmit"); //获取类名为 guessSubmit 的元素;
+      const guessField = document.querySelector(".guessField"); //获取类名为 guessField 的元素
+      let guessCount = 1; //猜测计数器
+      let resetButton;
+      //给按钮添加事件监听
+      guessSubmit.addEventListener("click", checkGuess);
+      //游戏逻辑函数
+      function checkGuess() {
+        const userGuess = Number(guessField.value);
+        if (guessCount === 1) {
+          guesses.textContent = "先前的猜测是: ";
+        }
+        guesses.textContent += `${userGuess} `;
+        if (userGuess === randomNumber) {
+          lastResult.textContent = "恭喜你，你猜对了！";
+          lastResult.style.backgroundColor = "green";
+          lowOrHi.textContent = "";
+          setGameOver();
+        } else if (guessCount === 10) {
+          lastResult.textContent = "!!!游戏结束!!!";
+          lowOrHi.textContent = "";
+          setGameOver();
+        } else {
+          lastResult.textContent = "猜错了!";
+          lastResult.style.backgroundColor = "red";
+          if (userGuess < randomNumber) {
+            lowOrHi.textContent = "猜得太小了!";
+          } else if (userGuess > randomNumber) {
+            lowOrHi.textContent = "猜得太大了!";
+          }
+        }
+        guessCount++;
+        guessField.value = "";
+        guessField.focus();
+      }
+      
+      //游戏结束函数
+      function setGameOver() {
+        guessField.disabled = true;
+        guessSubmit.disabled = true;
+        resetButton = document.createElement("button");
+        resetButton.textContent = "开始新游戏";
+        document.body.append(resetButton);
+        resetButton.addEventListener("click", resetGame);
+      }
+
+      //游戏重置函数
+      function resetGame() {
+        guessCount = 1;
+        const resetParas = document.querySelectorAll(".resultParas p");
+        for (const resetPara of resetParas) {
+          resetPara.textContent = "";
+        }
+        resetButton.parentNode.removeChild(resetButton);
+        guessField.disabled = false;
+        guessSubmit.disabled = false;
+        guessField.value = "";
+        guessField.focus();
+        lastResult.style.backgroundColor = "white";
+        randomNumber = Math.floor(Math.random() * 100) + 1;
+      }     
+    </script>
+  </body>
+</html>

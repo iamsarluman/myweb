@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>n-m之间的数相加和</title> 
+</head>
+<body>
+     <script>
+        // 求n-m之间所有数的和
+        // n,m  形式参数(形参)
+        function getSum(n, m) {
+            let sum = 0;
+            for (let i = n; i <= m; i++) {
+                sum += i;
+            }
+            console.log(n+'-'+m+'之间的数相加为：'+sum);
+        }
+   
+        getSum(5, 10);        // n=5,m=10 sum=0+5+6+7+8+9+10==45
+   
+        getSum(100,1000);     // n=100,m=1000 sum=0+100+101+102+...+1000=495550
+      </script>
+</body>
+</html>
